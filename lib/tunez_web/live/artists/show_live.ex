@@ -186,8 +186,6 @@ defmodule TunezWeb.Artists.ShowLive do
 
         {:noreply, socket}
     end
-
-    {:noreply, socket}
   end
 
   def handle_event("destroy_album", _params, socket) do
