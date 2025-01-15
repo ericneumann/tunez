@@ -38,4 +38,9 @@ defmodule Tunez.Music.Artist do
     create_timestamp :inserted_at
     update_timestamp :updated_at
   end
+
+  identities do
+    identity :id, [:id]
+    identity :name, [:name]
+  end
 end
