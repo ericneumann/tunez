@@ -13,11 +13,13 @@ defmodule TunezWeb.Artists.IndexLive do
 
   def handle_params(params, _url, socket) do
     query_text = Map.get(params, "q", "")
-    artists = Tunez.Music.search_artists!(query_text)
+    sort_by = Map.get(params, "sort_by", "name") |> validate_sort_by()
+    artists = Tunez.Music.search_artists!(query_text, query: [sort_input: sort_by])
 
     socket =
       socket
       |> assign(:query_text, query_text)
+      |> assign(:sort_by, sort_by)
       |> assign(:artists, artists)
 
     {:noreply, socket}
@@ -28,7 +30,17 @@ defmodule TunezWeb.Artists.IndexLive do
     <.header responsive={false}>
       <.h1>Artists</.h1>
       <:action>
-        <.search_box query={@query_text} method="get" data-role="artist-search" phx-submit="search" />
+        <.search_box
+          query={@query_text}
+          method="get"
+          data-role="artist-search"
+          phx-submit="search"
+          phx-change="search"
+          phx-debounce="3000"
+        />
+      </:action>
+      <:action>
+        <.sort_changer selected={@sort_by} />
       </:action>
       <:action>
         <.button_link navigate={~p"/artists/new"} kind="primary">
@@ -94,7 +106,7 @@ defmodule TunezWeb.Artists.IndexLive do
   end
 
   attr :query, :string, default: ""
-  attr :rest, :global, include: ~w(method action phx-submit data-role)
+  attr :rest, :global, include: ~w(method action phx-submit phx-change phx-debounce data-role)
   slot :inner_block, required: false
 
   def search_box(assigns) do
@@ -132,8 +144,8 @@ defmodule TunezWeb.Artists.IndexLive do
 
   defp sort_options do
     [
-      {"updated_at", "recently updated"},
-      {"inserted_at", "recently added"},
+      {"-updated_at", "recently updated"},
+      {"-inserted_at", "recently added"},
       {"name", "name"}
     ]
   end
@@ -158,7 +170,7 @@ defmodule TunezWeb.Artists.IndexLive do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    params = remove_empty(%{q: query})
+    params = remove_empty(%{q: query, sort_by: socket.assigns.sort_by})
     {:noreply, push_patch(socket, to: ~p"/?#{params}")}
   end
 end
