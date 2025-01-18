@@ -19,6 +19,10 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  resource do
+    description "a person or group of people that makes and releases music"
+  end
+
   actions do
     create :create do
       accept [:name, :biography]
@@ -26,6 +30,7 @@ defmodule Tunez.Music.Artist do
 
     read :search do
       argument :query, :ci_string do
+        description "Return only artists with names including the given value"
         constraints allow_empty?: true
         default ""
       end
@@ -35,6 +40,8 @@ defmodule Tunez.Music.Artist do
       pagination offset?: true, default_limit: 12
 
       prepare build(load: [:album_count, :latest_album_year_released, :cover_image_url])
+
+      description "List Arists, optionally filtering by name."
     end
 
     read :read do
