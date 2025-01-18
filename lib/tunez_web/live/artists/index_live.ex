@@ -87,6 +87,9 @@ defmodule TunezWeb.Artists.IndexLive do
         {@artist.name}
       </.link>
     </p>
+    <p>
+      {artist_card_album_info(assigns)}
+    </p>
     """
   end
 
@@ -185,7 +188,9 @@ defmodule TunezWeb.Artists.IndexLive do
     [
       {"-updated_at", "recently updated"},
       {"-inserted_at", "recently added"},
-      {"name", "name"}
+      {"name", "name"},
+      {"-album_count", "number of albums"},
+      {"--latest_album_year_released", "latest album release"}
     ]
   end
 
