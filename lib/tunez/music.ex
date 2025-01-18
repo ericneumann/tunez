@@ -1,7 +1,7 @@
 defmodule Tunez.Music do
   use Ash.Domain,
     otp_app: :tunez,
-    extensions: [AshPhoenix]
+    extensions: [AshJsonApi.Domain, AshPhoenix]
 
   resources do
     resource Tunez.Music.Artist do
