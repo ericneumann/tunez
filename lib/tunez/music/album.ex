@@ -2,7 +2,12 @@ defmodule Tunez.Music.Album do
   use Ash.Resource,
     otp_app: :tunez,
     domain: Tunez.Music,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshJsonApi.Resource]
+
+  json_api do
+    type "album"
+  end
 
   postgres do
     table "albums"
@@ -77,11 +82,11 @@ defmodule Tunez.Music.Album do
               expr("wow, this was released " <> years_ago <> " years ago!")
   end
 
+  def this_year, do: Date.utc_today().year
+  def next_year, do: this_year() + 1
+
   identities do
     identity :unique_album_names_per_artist, [:name, :artist_id],
       message: "already exists for this artist"
   end
-
-  def this_year, do: Date.utc_today().year
-  def next_year, do: this_year() + 1
 end
