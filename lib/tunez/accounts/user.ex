@@ -269,7 +269,7 @@ defmodule Tunez.Accounts.User do
     end
 
     attribute :hashed_password, :string do
-      allow_nil? false
+      allow_nil? true
       sensitive? true
     end
   end
