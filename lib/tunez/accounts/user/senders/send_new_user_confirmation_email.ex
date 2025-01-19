@@ -12,13 +12,10 @@ defmodule Tunez.Accounts.User.Senders.SendNewUserConfirmationEmail do
 
   @impl true
   def send(user, token, _) do
-    new()
-    # TODO: Replace with your email
-    |> from({"noreply", "noreply@example.com"})
-    |> to(to_string(user.email))
-    |> subject("Confirm your email address")
-    |> html_body(body(token: token))
-    |> Mailer.deliver!()
+    Tunez.Emails.deliver_email_confirmation_email(
+      user,
+      url(~p"/auth/user/confirm_new_user?#{[confirm: token]}")
+    )
   end
 
   defp body(params) do

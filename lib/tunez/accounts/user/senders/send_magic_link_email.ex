@@ -20,13 +20,10 @@ defmodule Tunez.Accounts.User.Senders.SendMagicLinkEmail do
         email -> email
       end
 
-    new()
-    # TODO: replace with your email
-    |> from({"noreply", "noreply@example.com"})
-    |> to(to_string(email))
-    |> subject("Your login link")
-    |> html_body(body(token: token, email: email))
-    |> Mailer.deliver!()
+    Tunez.Emails.deliver_magic_link_email(
+      email,
+      url(~p"/auth/user/magic_link/?token=#{token}")
+    )
   end
 
   defp body(params) do
