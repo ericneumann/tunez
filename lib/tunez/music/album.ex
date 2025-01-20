@@ -38,6 +38,13 @@ defmodule Tunez.Music.Album do
     prepare build(sort: [year_released: :desc])
   end
 
+  changes do
+    change relate_actor(:created_by, allow_nil?: true), on: [:create]
+    change relate_actor(:updated_by, allow_nil?: true), on: [:create]
+
+    change relate_actor(:updated_by, allow_nil?: false), on: [:update]
+  end
+
   validations do
     validate numericality(
                :year_released,
