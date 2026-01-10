@@ -51,7 +51,13 @@ defmodule Tunez.Music do
         action: :search,
         args: [:query],
         default_options: [
-          load: [:album_count, :latest_album_year_released, :cover_image_url]
+          load: [
+            :follower_count,
+            :followed_by_me,
+            :album_count,
+            :latest_album_year_released,
+            :cover_image_url
+          ]
         ]
 
       define :get_artist_by_id, action: :read, get_by: :id
