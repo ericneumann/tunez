@@ -11,6 +11,7 @@ defmodule Tunez.Music do
       create Tunez.Music.Artist, :create_artist, :create
       update Tunez.Music.Artist, :update_artist, :update
       destroy Tunez.Music.Artist, :destroy_artist, :destroy
+      create Tunez.Music.ArtistFollower, :follow_artist, :create
 
       create Tunez.Music.Album, :create_album, :create
       update Tunez.Music.Album, :update_album, :update
@@ -66,6 +67,28 @@ defmodule Tunez.Music do
     end
 
     resource Tunez.Music.Track
-    resource Tunez.Music.ArtistFollower
+
+    resource Tunez.Music.ArtistFollower do
+      define :follow_artist do
+        action :create
+        args [:artist]
+
+        custom_input :artist, :struct do
+          constraints instance_of: Tunez.Music.Artist
+          transform to: :artist_id, using: & &1.id
+        end
+      end
+
+      define :unfollow_artist do
+        action :destroy
+        args [:artist]
+        get? true
+
+        custom_input :artist, :struct do
+          constraints instance_of: Tunez.Music.Artist
+          transform to: :artist_id, using: & &1.id
+        end
+      end
+    end
   end
 end
