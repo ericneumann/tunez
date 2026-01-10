@@ -21,6 +21,11 @@ defmodule Tunez.Music.Changes.MinutesToSeconds do
     end
   end
 
+  @impl true
+  def atomic(changeset, opts, context) do
+    {:ok, change(changeset, opts, context)}
+  end
+
   defp ensure_valid_format(duration) do
     if String.match?(duration, ~r/^\d+:\d{2}$/) do
       :ok
