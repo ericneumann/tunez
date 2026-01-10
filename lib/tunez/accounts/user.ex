@@ -274,6 +274,10 @@ defmodule Tunez.Accounts.User do
 
       run AshAuthentication.Strategy.MagicLink.Request
     end
+
+    update :set_role do
+      accept [:role]
+    end
   end
 
   policies do
@@ -296,6 +300,11 @@ defmodule Tunez.Accounts.User do
 
     attribute :hashed_password, :string do
       sensitive? true
+    end
+
+    attribute :role, Tunez.Accounts.Role do
+      allow_nil? false
+      default :user
     end
 
     attribute :confirmed_at, :utc_datetime_usec
