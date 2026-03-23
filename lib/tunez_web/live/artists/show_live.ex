@@ -66,7 +66,7 @@ defmodule TunezWeb.Artists.ShowLive do
         <.cover_image image={@album.cover_image_url} />
       </div>
       <div class="flex-1">
-        <.header class="pl-3 pr-2 !m-0">
+        <.header class="pl-3 pr-2 m-0!">
           <.h2>
             {@album.name} ({@album.year_released})
           </.h2>
