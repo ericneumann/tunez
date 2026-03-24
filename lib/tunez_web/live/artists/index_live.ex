@@ -132,7 +132,7 @@ defmodule TunezWeb.Artists.IndexLive do
       <.icon name="hero-magnifying-glass" class="w-4 h-4 m-2 ml-3 mt-4 absolute bg-gray-400" />
       <label for="search-text" class="hidden">Search</label>
       <.input
-        class="!rounded-full p-1 pl-8 !w-32 sm:!w-48"
+        class="rounded-full! p-1 pl-8 w-32! sm:w-48!"
         name="query"
         id="search-text"
         value={@query}
@@ -154,7 +154,7 @@ defmodule TunezWeb.Artists.IndexLive do
         name="sort_by"
         options={@options}
         value={@selected}
-        class="px-2 py-0.5 !w-fit !inline-block pr-8 text-sm"
+        class="px-2 py-0.5 w-fit! inline-block! pr-8 text-sm"
         container_class="!inline-block"
       />
     </form>
