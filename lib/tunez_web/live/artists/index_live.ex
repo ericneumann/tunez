@@ -19,8 +19,7 @@ defmodule TunezWeb.Artists.IndexLive do
     page =
       Tunez.Music.search_artists!(query_text,
         page: page_params,
-        query: [sort_input: sort_by],
-        load: [:cover_image_url]
+        query: [sort_input: sort_by]
       )
 
     socket =
@@ -81,6 +80,7 @@ defmodule TunezWeb.Artists.IndexLive do
         {@artist.name}
       </.link>
     </p>
+    <.artist_card_album_info artist={@artist} />
     """
   end
 
@@ -194,7 +194,9 @@ defmodule TunezWeb.Artists.IndexLive do
     [
       {"recently updated", "-updated_at"},
       {"recently added", "-inserted_at"},
-      {"name", "name"}
+      {"name", "name"},
+      {"number of albums", "-album_count"},
+      {"latest album release", "--latest_album_year_released"}
     ]
   end
 
