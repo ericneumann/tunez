@@ -1,5 +1,13 @@
 defmodule Tunez.Music.Album do
-  use Ash.Resource, otp_app: :tunez, domain: Tunez.Music, data_layer: AshPostgres.DataLayer
+  use Ash.Resource,
+    otp_app: :tunez,
+    domain: Tunez.Music,
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshGraphql.Resource]
+
+  graphql do
+    type :album
+  end
 
   postgres do
     table "albums"
@@ -63,15 +71,18 @@ defmodule Tunez.Music.Album do
 
   calculations do
     calculate :years_ago, :integer, expr(2025 - year_released)
-    calculate :string_years_ago, :string, expr("wow, this was released " <> years_ago <> " years ago!")
+
+    calculate :string_years_ago,
+              :string,
+              expr("wow, this was released " <> years_ago <> " years ago!")
+  end
+
+  def next_year do
+    Date.utc_today().year + 1
   end
 
   identities do
     identity :unique_album_names_per_artist, [:name, :artist_id],
       message: "already exists for this artist"
-  end
-
-  def next_year do
-    Date.utc_today().year + 1
   end
 end
