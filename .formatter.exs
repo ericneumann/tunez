@@ -1,5 +1,6 @@
 [
   import_deps: [
+    :ash_json_api,
     :ash_graphql,
     :absinthe,
     :ash_phoenix,
