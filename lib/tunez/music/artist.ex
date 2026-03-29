@@ -5,11 +5,6 @@ defmodule Tunez.Music.Artist do
     data_layer: AshPostgres.DataLayer,
     extensions: [AshJsonApi.Resource, AshGraphql.Resource]
 
-  json_api do
-    type "artist"
-    includes [:albums]
-  end
-
   graphql do
     type :artist
 
@@ -22,6 +17,11 @@ defmodule Tunez.Music.Artist do
     ]
   end
 
+  json_api do
+    type "artist"
+    includes [:albums]
+  end
+
   postgres do
     table "artists"
     repo Tunez.Repo
@@ -29,6 +29,10 @@ defmodule Tunez.Music.Artist do
     custom_indexes do
       index "name gin_trgm_ops", name: "artists_name_gin_index", using: "GIN"
     end
+  end
+
+  resource do
+    description "A person or group of people that makes and releases music."
   end
 
   actions do
