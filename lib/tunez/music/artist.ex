@@ -5,6 +5,11 @@ defmodule Tunez.Music.Artist do
     data_layer: AshPostgres.DataLayer,
     extensions: [AshJsonApi.Resource, AshGraphql.Resource]
 
+  json_api do
+    type "artist"
+    includes [:albums]
+  end
+
   graphql do
     type :artist
 
@@ -15,11 +20,6 @@ defmodule Tunez.Music.Artist do
       :latest_album_year_released,
       :updated_at
     ]
-  end
-
-  json_api do
-    type "artist"
-    includes [:albums]
   end
 
   postgres do
